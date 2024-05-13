@@ -209,10 +209,9 @@ class Scarabs(models.Model):
 
 # Create your models here.
 class User(models.Model):
-	idUser = models.AutoField(primary_key=True)
+	email = models.CharField(primary_key=True, max_length=45, null=False, default='')
 	name = models.CharField(max_length=45, null=True, default=None)
 	nickName = models.CharField(max_length=45, null=True, default=None)
-	email = models.CharField(max_length=45, null=True, default=None)
 	password = models.CharField(max_length=45, null=True, default=None)
 	itens = models.IntegerField(null=True, default=None)
 	createdAt = models.DateTimeField()
