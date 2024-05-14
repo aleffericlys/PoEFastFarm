@@ -212,7 +212,7 @@ class User(models.Model):
 	email = models.CharField(primary_key=True, max_length=45, null=False, default='')
 	name = models.CharField(max_length=45, null=True, default=None)
 	nickName = models.CharField(max_length=45, null=True, default=None)
-	password = models.CharField(max_length=45, null=True, default=None)
+	password = models.CharField(max_length=100, null=True, default=None)
 	profilePicture = models.ImageField(upload_to='static/img/', null=True, default=None)
 	createdAt = models.DateTimeField(auto_now_add=True)
 	updatedAt = models.DateTimeField(auto_now=True)

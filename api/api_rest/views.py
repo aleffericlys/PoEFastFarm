@@ -9,6 +9,7 @@ from .models import User, Essences, Oils, Scarabs
 from .serializers import UserSerializer, EssencesSerializer, OilsSerializer, ScarabsSerializer
 
 import json
+import bcrypt
 
 # Create your views here.
 @api_view(['GET'])
@@ -97,6 +98,7 @@ def get_users_by_nick(request, nick):
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def user_manager(request):
 
+	# pegando usuário pelo nick com request.GET
 	if request.method == 'GET':
 
 		try:
@@ -118,7 +120,7 @@ def user_manager(request):
 		except User.DoesNotExist:
 			return Response(status=status.HTTP_404_NOT_FOUND)
 	
-
+	# criando novo usuário
 	if request.method == 'POST':
 
 		essence_serializer = EssencesSerializer(data = {})
@@ -139,6 +141,10 @@ def user_manager(request):
 
 			if user_serializer.is_valid():
 				# criptografia de senha bcrypt
+				password = user_serializer.validated_data['password']
+				hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+				user_serializer.validated_data['password'] = hashed_password.decode('utf-8')
 
 
 				user_serializer.save()
@@ -147,6 +153,34 @@ def user_manager(request):
 
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 	
+	# atualizando usuário
+	if request.method == 'PUT':
+
+		email = request.data['email']
+
+		try:
+			user_data = User.objects.get(pk=email)
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+
+		serializer = UserSerializer(user_data, data=request.data)
+
+
+
+		if serializer.is_valid():
+
+			password = serializer.validated_data['password']
+			hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+			serializer.validated_data['password'] = hashed_password.decode('utf-8')
+
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+		else:
+			print(serializer.errors)
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+		
+		# return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
