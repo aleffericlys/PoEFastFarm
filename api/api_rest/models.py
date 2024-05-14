@@ -112,7 +112,7 @@ class Essences(models.Model):
 	screaming_contempt = models.SmallIntegerField(default=0)
 	screaming_suffering = models.SmallIntegerField(default=0)
 	def __str__(self) -> str:
-		return f'Essence: {self.idEssences}'
+		return f'{self.idEssences}'
 
 
 class Oils(models.Model):
@@ -133,7 +133,7 @@ class Oils(models.Model):
 	Sepia = models.SmallIntegerField(default=0)
 	Clear = models.SmallIntegerField(default=0)
 	def __str__(self) -> str:
-		return f'Oils: {self.oil_id}'
+		return f'{self.oil_id}'
 		
 
 class Scarabs(models.Model):
@@ -204,7 +204,7 @@ class Scarabs(models.Model):
 	Rusted_Expedition = models.SmallIntegerField(default=0)
 	
 	def __str__(self) -> str:
-		return f'Scarabs: {self.idScarabs}'
+		return f'{self.idScarabs}'
 
 
 # Create your models here.
@@ -214,8 +214,8 @@ class User(models.Model):
 	nickName = models.CharField(max_length=45, null=True, default=None)
 	password = models.CharField(max_length=45, null=True, default=None)
 	itens = models.IntegerField(null=True, default=None)
-	createdAt = models.DateTimeField()
-	updatedAt = models.DateTimeField()
+	createdAt = models.DateTimeField(auto_now_add=True)
+	updatedAt = models.DateTimeField(auto_now=True)
 	Essences_idEssences = models.ForeignKey(Essences, on_delete=models.CASCADE)
 	oils_oil_id = models.ForeignKey(Oils, on_delete=models.CASCADE)
 	Scarabs_idScarabs = models.ForeignKey(Scarabs, on_delete=models.CASCADE)
