@@ -138,6 +138,9 @@ def user_manager(request):
 			user_serializer = UserSerializer(data = new_user)
 
 			if user_serializer.is_valid():
+				# criptografia de senha bcrypt
+
+
 				user_serializer.save()
 				return Response(user_serializer.data, status=status.HTTP_201_CREATED)
 
