@@ -213,7 +213,6 @@ class User(models.Model):
 	name = models.CharField(max_length=45, null=True, default=None)
 	nickName = models.CharField(max_length=45, null=True, default=None)
 	password = models.CharField(max_length=45, null=True, default=None)
-	itens = models.IntegerField(null=True, default=None)
 	createdAt = models.DateTimeField(auto_now_add=True)
 	updatedAt = models.DateTimeField(auto_now=True)
 	Essences_idEssences = models.ForeignKey(Essences, on_delete=models.CASCADE)
