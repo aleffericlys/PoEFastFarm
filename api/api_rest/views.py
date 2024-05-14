@@ -206,21 +206,17 @@ def user_manager(request):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 		else:
-			print(serializer.errors)
 			return Response(status=status.HTTP_400_BAD_REQUEST)
-		
-		# return Response(status=status.HTTP_400_BAD_REQUEST)
 
 	# deletando usuário
 	if request.method == 'DELETE':
-		print(request.data)
 		try:
 			user = User.objects.get(pk=request.data['email'])
 
 			delete_scarab(str(user.Scarabs_idScarabs))
 			delete_oil(str(user.oils_oil_id))
 			delete_essence(str(user.Essences_idEssences))
-			
+
 			user.delete()
 			return Response(status=status.HTTP_202_ACCEPTED)
 		except User.DoesNotExist:
