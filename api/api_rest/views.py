@@ -42,6 +42,16 @@ def get_user_escences(request, nick):
 	
 	return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+def delete_essence(id):
+
+	try:
+		essence = Essences.objects.get(idEssences=id)
+		essence.delete()
+		return Response(status=status.HTTP_202_ACCEPTED)
+	except Essences.DoesNotExist:
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def get_user_oils(request, nick):
 
@@ -62,6 +72,15 @@ def get_user_oils(request, nick):
 	
 	return Response(status=status.HTTP_400_BAD_REQUEST)
 
+def delete_oil(id):
+
+	try:
+		oil = Oils.objects.get(oil_id=id)
+		oil.delete()
+		return Response(status=status.HTTP_202_ACCEPTED)
+	except Oils.DoesNotExist:
+		return Response(status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET'])
 def get_user_scarabs(request, nick):
 
@@ -81,6 +100,16 @@ def get_user_scarabs(request, nick):
 		return Response(serializer.data)
 	
 	return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+def delete_scarab(id):
+
+	try:
+		scarab = Scarabs.objects.get(idScarabs=id)
+		scarab.delete()
+		return Response(status=status.HTTP_202_ACCEPTED)
+	except Scarabs.DoesNotExist:
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_users_by_nick(request, nick):
@@ -182,6 +211,20 @@ def user_manager(request):
 		
 		# return Response(status=status.HTTP_400_BAD_REQUEST)
 
+	# deletando usuário
+	if request.method == 'DELETE':
+		print(request.data)
+		try:
+			user = User.objects.get(pk=request.data['email'])
+
+			delete_scarab(str(user.Scarabs_idScarabs))
+			delete_oil(str(user.oils_oil_id))
+			delete_essence(str(user.Essences_idEssences))
+			
+			user.delete()
+			return Response(status=status.HTTP_202_ACCEPTED)
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 
