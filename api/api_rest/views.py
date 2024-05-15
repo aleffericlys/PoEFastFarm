@@ -223,6 +223,24 @@ def user_manager(request):
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def user_login(request):
+
+	if request.method == 'GET':
+
+		email = request.data['email']
+
+		try:
+			user = User.objects.get(email=email)
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		password = request.data['password']
+		hashed_password = user.password
+
+		if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
+			return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
