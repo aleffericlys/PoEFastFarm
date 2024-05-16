@@ -8,8 +8,7 @@ from rest_framework import status
 from .models import User, Essences, Oils, Scarabs
 from .serializers import UserSerializer, EssencesSerializer, OilsSerializer, ScarabsSerializer
 
-import json
-import bcrypt
+import jwt, datetime
 
 # Create your views here.
 @api_view(['GET'])
@@ -43,7 +42,7 @@ def get_user_escences(request, nick):
 	return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def delete_essence(id):
+def delete_user_essence(id):
 
 	try:
 		essence = Essences.objects.get(idEssences=id)
@@ -72,7 +71,7 @@ def get_user_oils(request, nick):
 	
 	return Response(status=status.HTTP_400_BAD_REQUEST)
 
-def delete_oil(id):
+def delete_user_oil(id):
 
 	try:
 		oil = Oils.objects.get(oil_id=id)
@@ -102,7 +101,7 @@ def get_user_scarabs(request, nick):
 	return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-def delete_scarab(id):
+def delete_user_scarab(id):
 
 	try:
 		scarab = Scarabs.objects.get(idScarabs=id)
@@ -112,16 +111,27 @@ def delete_scarab(id):
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def get_users_by_nick(request, nick):
-
-	try:
-		user = User.objects.get(nickName=nick)
-	except User.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
+def get_user(request):
 
 	if request.method == 'GET':
+		token = request.COOKIES.get('jwt')
+	
+		if not token:
+			return Response({'message':'User not logged'},status=status.HTTP_401_UNAUTHORIZED)
+
+		try:
+			payload = jwt.decode(jwt=token, key='secret', algorithms=['HS256'])
+		except jwt.ExpiredSignatureError:
+			return Response(status=status.HTTP_401_UNAUTHORIZED)
+		
+		try:
+			user = User.objects.get(email=payload['email'])
+		except User.DoesNotExist:
+			return Response(status=status.HTTP_404_NOT_FOUND)
+		
 		serializer = UserSerializer(user)
-		return Response(serializer.data)
+
+		return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
@@ -169,13 +179,6 @@ def user_manager(request):
 			user_serializer = UserSerializer(data = new_user)
 
 			if user_serializer.is_valid():
-				# criptografia de senha bcrypt
-				password = user_serializer.validated_data['password']
-				hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-				user_serializer.validated_data['password'] = hashed_password.decode('utf-8')
-
-
 				user_serializer.save()
 				return Response(user_serializer.data, status=status.HTTP_201_CREATED)
 
@@ -198,11 +201,6 @@ def user_manager(request):
 
 		if serializer.is_valid():
 
-			password = serializer.validated_data['password']
-			hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-
-			serializer.validated_data['password'] = hashed_password.decode('utf-8')
-
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 		else:
@@ -213,9 +211,9 @@ def user_manager(request):
 		try:
 			user = User.objects.get(pk=request.data['email'])
 
-			delete_scarab(str(user.Scarabs_idScarabs))
-			delete_oil(str(user.oils_oil_id))
-			delete_essence(str(user.Essences_idEssences))
+			delete_user_scarab(str(user.Scarabs_idScarabs))
+			delete_user_oil(str(user.oils_oil_id))
+			delete_user_essence(str(user.Essences_idEssences))
 
 			user.delete()
 			return Response(status=status.HTTP_202_ACCEPTED)
@@ -223,36 +221,88 @@ def user_manager(request):
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def user_login(request):
 
-	if request.method == 'GET':
+	if request.method == 'POST':
 
 		email = request.data['email']
+		password = request.data['password']
 
 		try:
 			user = User.objects.get(email=email)
 		except User.DoesNotExist:
-			return Response(status=status.HTTP_404_NOT_FOUND)
-		password = request.data['password']
-		hashed_password = user.password
+			return Response({'message':'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
+		
+		if not user.check_password(password):
+			return Response({'message':'Incorrect Password'}, status=status.HTTP_401_UNAUTHORIZED)
+		
+		payload = {
+			'email': user.email,
+			'exp': datetime.datetime.now() + datetime.timedelta(days=1),
+			'iat': datetime.datetime.now()
+		}
 
-		if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
-			return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+		token = jwt.encode(payload=payload, key='secret', algorithm='HS256')
 
-		return Response(status=status.HTTP_400_BAD_REQUEST)
+		response = Response({'jwt': token}, status=status.HTTP_202_ACCEPTED)
+		response.set_cookie(key='jwt', value=token, httponly=True)
+
+		return response
 
 
 @api_view(['POST'])
-def teste(request):
-
+def user_logout(request):
+	
 	if request.method == 'POST':
 
-		new_user = request.data
-		serializer = UserSerializer(data = new_user)
+		response = Response({'mensage': 'successful logout'}, status=status.HTTP_202_ACCEPTED)
+		response.delete_cookie('jwt')
 
-		if serializer.is_valid():
-			serializer.save()
-			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return response
 
-	return Response(status=status.HTTP_400_BAD_REQUEST)	
+
+# @api_view(['POST'])
+# def teste(request):
+
+# 	if request.method == 'POST':
+
+# 		new_user = request.data
+# 		serializer = UserSerializer(data = new_user)
+
+# 		if serializer.is_valid():
+# 			serializer.save()
+# 			return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+# 	return Response(status=status.HTTP_400_BAD_REQUEST)	
+
+
+@api_view(['DELETE'])
+def delete_scarab(request, id):
+	if request.method == 'DELETE':
+		try:
+			scarab = Scarabs.objects.get(idScarabs=id)
+			scarab.delete()
+			return Response(status=status.HTTP_202_ACCEPTED)
+		except Scarabs.DoesNotExist:
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+		
+@api_view(['DELETE'])
+def delete_oil(request, id):
+	if request.method == 'DELETE':
+		try:
+			oil = Oils.objects.get(oil_id=id)
+			oil.delete()
+			return Response(status=status.HTTP_202_ACCEPTED)
+		except Oils.DoesNotExist:
+			return Response(status=status.HTTP_400_BAD_REQUEST)
+		
+@api_view(['DELETE'])
+def delete_essence(request, id):
+	if request.method == 'DELETE':
+		try:
+			essence = Essences.objects.get(idEssences=id)
+			essence.delete()
+			return Response(status=status.HTTP_202_ACCEPTED)
+		except Essences.DoesNotExist:
+			return Response(status=status.HTTP_400_BAD_REQUEST)

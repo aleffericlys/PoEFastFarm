@@ -1,30 +1,95 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+	<nav>
+		<div class="leftSideBar">
+			side bar
+		</div>
+		<div class="links">
+			<router-link to="/">
+				<div class="home">
+					Home
+				</div>
+			</router-link>
+			<router-link to="/about">
+				<div class="about">
+					Calculator
+				</div>
+			</router-link>
+		</div>
+		<div class="RightSidebar">
+			<LoginSideBar />
+		</div>
+	</nav>
+	<router-view />
 </template>
+
+<script>
+import LoginSideBar from "@/components/LoginSideBar.vue";
+
+export default {
+	name: "App",
+	components: {
+		LoginSideBar,
+	},
+};
+</script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+	font-family: Avenir, Helvetica, Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-align: center;
+	color: #2c3e50;
 }
 
 nav {
-  padding: 30px;
+	padding-left: 10px;
+	padding-right: 10px;
+	height: 40px;
+	background-color: #d9d9d9;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+	.links {
+		display: flex;
+		background-color: #f5f5f5;
+		padding: 3px;
+		width: 60%;
+		height: 80%;
+		margin: 0 auto;
+		border-radius: 5px;
+		align-items: center;
+		justify-content: space-around;
+
+
+		a {
+			background-color: #dcdcdc;
+			color: #1c1c1c;
+			padding: 3px;
+			width: 48%;
+			height: 90%;
+			border-radius: 5px;
+			display: flex;
+			align-items: center;
+			// align-content: center;
+			justify-content: center;
+			text-decoration: none;
+
+			&.router-link-exact-active {
+				color: #ffffff;
+				background-color: #444444;
+				display: flex;
+				align-items: center;
+			}
+
+			// .div {
+			// 	display: flex;
+			// 	background-color: green;
+			// 	height: 100%;
+			// }
+		}
+	}
 }
 </style>

@@ -7,14 +7,22 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = User
 		fields = ['email', 'name', 'nickName', 'password', 'profilePicture', 'Essences_idEssences', 'oils_oil_id', 'Scarabs_idScarabs']
+		# fields = '__all__'
 		extra_kwargs = {
 			'name': {'required': False},
-			'password': {'required': False},
+			'password': {'write_only': True},
             'Essences_idEssences': {'required': False},
             'oils_oil_id': {'required': False},
             'Scarabs_idScarabs': {'required': False},
         }
-		# fields = '__all__'
+	
+	def create(self, validated_data):
+		password = validated_data.pop('password', None)
+		instance = self.Meta.model(**validated_data)
+		if password is not None:
+			instance.set_password(password)
+		instance.save()
+		return instance
 	
 	def update(self, instance, validated_data):
 		validated_data.pop('Essences_idEssences', None)

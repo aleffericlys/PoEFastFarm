@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 
 class Essences(models.Model):
@@ -208,17 +209,21 @@ class Scarabs(models.Model):
 
 
 # Create your models here.
-class User(models.Model):
-	email = models.CharField(primary_key=True, max_length=45, null=False, default='')
-	name = models.CharField(max_length=45, null=True, default=None)
+class User(AbstractUser):
+	email = models.CharField(primary_key=True, max_length=45, null=False, unique=True)
+	name = models.CharField(max_length=100, null=False, default=None)
 	nickName = models.CharField(max_length=45, null=True, default=None)
-	password = models.CharField(max_length=100, null=True, default=None)
+	password = models.CharField(max_length=100, null=False, default=None)
 	profilePicture = models.ImageField(upload_to='static/img/', null=True, default=None)
 	createdAt = models.DateTimeField(auto_now_add=True)
 	updatedAt = models.DateTimeField(auto_now=True)
 	Essences_idEssences = models.ForeignKey(Essences, on_delete=models.CASCADE)
 	oils_oil_id = models.ForeignKey(Oils, on_delete=models.CASCADE)
 	Scarabs_idScarabs = models.ForeignKey(Scarabs, on_delete=models.CASCADE)
+	username = None
+
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = []
 
 	def __str__(self) -> str:
 		return f'Nickname: {self.nickName}, Email: {self.email}'
