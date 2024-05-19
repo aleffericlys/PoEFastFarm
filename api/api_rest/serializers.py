@@ -11,10 +11,10 @@ class UserSerializer(serializers.ModelSerializer):
 		extra_kwargs = {
 			'name': {'required': False},
 			'password': {'write_only': True},
-            'Essences_idEssences': {'required': False},
-            'oils_oil_id': {'required': False},
-            'Scarabs_idScarabs': {'required': False},
-        }
+			'Essences_idEssences': {'required': False},
+			'oils_oil_id': {'required': False},
+			'Scarabs_idScarabs': {'required': False},
+		}
 	
 	def create(self, validated_data):
 		password = validated_data.pop('password', None)
@@ -29,8 +29,14 @@ class UserSerializer(serializers.ModelSerializer):
 		validated_data.pop('oils_oil_id', None)
 		validated_data.pop('Scarabs_idScarabs', None)
 		validated_data.pop('createdAt', None)
+		password = validated_data.pop('password', None)
 
-		return super().update(instance, validated_data)
+		for attr, value in validated_data.items():
+			setattr(instance, attr, value)
+		if password is not None:
+			instance.set_password(password)
+		instance.save()
+		return instance
 
 class EssencesSerializer(serializers.ModelSerializer):
 	class Meta:
