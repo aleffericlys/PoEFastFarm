@@ -1,6 +1,8 @@
 <template>
-	<button v-if="logged" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Profile</button>
-	<button v-else class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Login</button>
+	<button v-if="logged" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+		aria-controls="offcanvasRight">Profile</button>
+	<button v-else class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+		aria-controls="offcanvasRight">Login</button>
 
 	<div class="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 		<div class="offcanvas-header">
@@ -41,8 +43,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-
 .offcanvas-header {
 	background-color: grey;
 	width: 100%;
