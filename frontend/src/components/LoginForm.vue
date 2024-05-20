@@ -1,14 +1,14 @@
 <template>
-	<form class="login_form">
+	<form class="login_form" @submit="submit">
 			<h1 class="h3 mb-3 fw-normal">Entre com Email e Senha</h1>
 			
 			<div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+				<input v-model="data.email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
 				<label for="floatingInput">Email address</label>
 			</div>
 			
 			<div class="form-floating">
-				<input type="password" class="form-control" id="floatingPassword" placeholder="Password" value="">
+				<input v-model="data.password" type="password" class="form-control" id="floatingPassword" placeholder="Password" value="">
 				<label for="floatingPassword">Password</label>
 			</div>
 			
@@ -21,8 +21,30 @@
 </template>
 
 <script>
+import { reactive } from "vue";
+
 export default {
 	name: 'LoginForm',
+	setup() {
+		const data = reactive({
+			email: '',
+			password: '',
+		})
+
+		const submit = async () => {
+			await fetch('http://localhost:8000/api/login/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+				body: JSON.stringify(data),
+			})
+			window.location.reload();
+		}
+
+		return { data, submit }
+	}
 }
 
 </script>
