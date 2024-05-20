@@ -1,30 +1,30 @@
 <template>
-	<form class="login_form">
+	<form class="login_form" @submit="submit">
 		<div class="file-container">
 			<div class="form-floating image">
-				<input type="file" class="form-control image" id="floatingInput" name="image" accept="image/*"
+				<input @change="imageUp" type="file" class="form-control image" id="floatingInput" name="image" accept="image/*"
 					placeholder="image">
 			</div>
 			<label>profile image</label>
 		</div>
 		<div class="text-campos">
 			<div class="form-floating">
-				<input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+				<input v-model="data.email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
 				<label for="floatingInput">Email address</label>
 			</div>
 
 			<div class="form-floating">
-				<input type="text" class="form-control" id="floatingInput" placeholder="name">
+				<input v-model="data.name" type="text" class="form-control" id="floatingInput" placeholder="name">
 				<label for="floatingInput">Name</label>
 			</div>
 
 			<div class="form-floating">
-				<input type="text" class="form-control" id="floatingInput" placeholder="Nick Name">
+				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput" placeholder="Nick Name">
 				<label for="floatingInput">Nick Name</label>
 			</div>
 
 			<div class="form-floating">
-				<input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+				<input v-model="data.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
 				<label for="floatingPassword">Password</label>
 			</div>
 		</div>
@@ -38,8 +38,39 @@
 </template>
 
 <script>
+import { reactive } from 'vue';
+
 export default {
 	name: 'CreateAccForm',
+	setup(){
+		const data = reactive({
+			email: '',
+			name: '',
+			nick: '',
+			password: '',
+			profilePicture: null,
+		})
+
+		const imageUp = (e) => {
+			data.profilePicture = e.target.files[0];
+		}
+
+		const submit = async () => {
+			await fetch('http://localhost:8000/api/data/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+				body: JSON.stringify(data),
+			})
+			console.log(data);
+			// window.location.reload();
+		}
+
+		return { data, submit, imageUp }
+	
+	}
 }
 
 </script>

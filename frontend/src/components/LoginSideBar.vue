@@ -27,7 +27,7 @@ export default {
 	name: 'LoginSideBar',
 	data() {
 		return {
-			tela: 0,
+			tela: 1,
 			logged: false,
 		}
 
