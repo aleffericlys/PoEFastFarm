@@ -9,8 +9,8 @@
 					Home
 				</div>
 			</router-link>
-			<router-link to="/about">
-				<div class="about">
+			<router-link to="/calculator">
+				<div class="calculator">
 					Calculator
 				</div>
 			</router-link>
