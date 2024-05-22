@@ -25,7 +25,7 @@
 import LoginSideBar from "@/components/LoginSideBar.vue";
 
 export default {
-	name: "Sidebar",
+	name: "NavBar",
 	components: {
 		LoginSideBar,
 	},

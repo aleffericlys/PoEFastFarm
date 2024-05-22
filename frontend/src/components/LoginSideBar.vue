@@ -1,43 +1,60 @@
 <template>
-	<button v-if="logged" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+	<button v-if="auth" class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
 		aria-controls="offcanvasRight">Profile</button>
 	<button v-else class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
 		aria-controls="offcanvasRight">Login</button>
+	<button v-if="auth" class="btn btn-secondary" @click="logout">logout</button>
 
 	<div class="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 		<div class="offcanvas-header">
-			<h5 v-if="tela == 0" class="offcanvas-title" id="offcanvasRightLabel">Login</h5>
-			<h5 v-else-if="tela == 1" class="offcanvas-title" id="offcanvasRightLabel">Create Account</h5>
+			<h5 v-if="auth" class="offcanvas-title" id="offcanvasRightLabel">Profile</h5>
+			<h5 v-else class="offcanvas-title" id="offcanvasRightLabel">Login</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div v-if="tela == 0" class="offcanvas-body">
-			<LoginForm />
-		</div>
-		<div v-else-if="tela == 1" class="offcanvas-body">
+		<div v-if="auth" class="offcanvas-body">
 			<CreateAccForm />
+		</div>
+		<div v-else class="offcanvas-body">
+			<LoginForm />
 		</div>
 	</div>
 </template>
 
 <script>
-
+import { computed } from "vue";
 import LoginForm from "@/components/LoginForm.vue";
 import CreateAccForm from "@/components/CreateAccForm.vue";
+import { useStore } from "vuex";
 
 
 export default {
 	name: 'LoginSideBar',
-	data() {
-		return {
-			tela: 1,
-			logged: false,
-		}
-
-	},
+	
 	components: {
 		LoginForm,
 		CreateAccForm,
 	},
+	setup(){
+	
+		const store = useStore();
+
+		const auth = computed(() => store.state.isAuthenticated);
+
+		const logout = async () => {
+			await fetch('http://localhost:8000/api/logout/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+			})
+			window.location.reload();
+		}
+
+		return {
+			auth, logout
+		}
+	}
 
 }
 </script>
