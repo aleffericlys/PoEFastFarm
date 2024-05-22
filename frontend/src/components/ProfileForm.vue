@@ -1,5 +1,5 @@
 <template>
-	<form class="login_form" @submit="submit">
+	<form class="profile_form" @submit="submit">
 		<div class="file-container">
 			<div class="form-floating image">
 				<input @change="imageUp" type="file" class="form-control image" id="floatingInput" name="image"
@@ -25,16 +25,11 @@
 				<label for="floatingInput">Nick Name</label>
 			</div>
 
-			<div class="form-floating">
-				<input v-model="data.password" type="password" class="form-control" id="floatingPassword"
-					placeholder="Password">
-				<label for="floatingPassword">Password</label>
-			</div>
 		</div>
 
-		<button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
+		<button class="w-100 btn btn-lg btn-primary" type="submit">update account</button>
 		<div class="criar_conta">
-			já tem conta?<button class="btn" id="criar_conta">Realizar Login!</button>
+			<button class="btn btn-danger" @click="logout">Realizar Logout!</button>
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
 	</form>
@@ -44,13 +39,12 @@
 import { reactive } from 'vue';
 
 export default {
-	name: 'CreateAccForm',
+	name: 'ProfileForm',
 	setup() {
 		const data = reactive({
-			email: '',
-			name: '',
-			nickName: '',
-			password: '',
+			email: 'user',
+			name: 'user',
+			nickName: 'user',
 			profilePicture: null,
 		})
 
@@ -60,7 +54,7 @@ export default {
 
 		const submit = async () => {
 			await fetch('http://localhost:8000/api/data/', {
-				method: 'POST',
+				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -71,7 +65,18 @@ export default {
 			// window.location.reload();
 		}
 
-		return { data, submit, imageUp }
+		const logout = async () => {
+			await fetch('http://localhost:8000/api/logout/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+			})
+			window.location.reload();
+		}
+
+		return { data, submit, imageUp, logout }
 
 	}
 }
@@ -79,7 +84,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.login_form {
+.profile_form {
 	align-content: space-around;
 	width: 100%;
 	// height: 60%;
@@ -135,16 +140,5 @@ export default {
 	}
 }
 
-.criar_conta {
-	position: relative;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 
-	.btn {
-		margin-left: 5px;
-		color: blue;
-	}
-}
 </style>

@@ -3,7 +3,6 @@
 		aria-controls="offcanvasRight">Profile</button>
 	<button v-else class="btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
 		aria-controls="offcanvasRight">Login</button>
-	<button v-if="auth" class="btn btn-secondary" @click="logout">logout</button>
 
 	<div class="offcanvas offcanvas-end" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
 		<div class="offcanvas-header">
@@ -12,7 +11,7 @@
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div v-if="auth" class="offcanvas-body">
-			<CreateAccForm />
+			<ProfileForm />
 		</div>
 		<div v-else class="offcanvas-body">
 			<LoginForm />
@@ -24,6 +23,7 @@
 import { computed } from "vue";
 import LoginForm from "@/components/LoginForm.vue";
 import CreateAccForm from "@/components/CreateAccForm.vue";
+import ProfileForm from "@/components/ProfileForm.vue";
 import { useStore } from "vuex";
 
 
@@ -33,26 +33,17 @@ export default {
 	components: {
 		LoginForm,
 		CreateAccForm,
+		ProfileForm,
 	},
+
 	setup(){
 	
 		const store = useStore();
 
 		const auth = computed(() => store.state.isAuthenticated);
 
-		const logout = async () => {
-			await fetch('http://localhost:8000/api/logout/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
-			})
-			window.location.reload();
-		}
-
 		return {
-			auth, logout
+			auth,
 		}
 	}
 

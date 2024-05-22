@@ -28,7 +28,7 @@ export default {
 				const data = await response.json();
 				if (data.name) {
 					store.dispatch('login', data); // Despacha a ação de login
-					message.value = `Welcome ${data.name}!`;
+					message.value = `Welcome ${data.nickName}!`;
 				} else {
 					console.log(data.message);
 				}
