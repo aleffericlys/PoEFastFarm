@@ -16,7 +16,8 @@
 
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 		<div class="criar_conta">
-			não tem conta?<button class="btn" id="criar_conta">Crie uma conta!</button>
+			não tem conta?
+			<CreateAccModal />
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
 	</form>
@@ -24,9 +25,13 @@
 
 <script>
 import { reactive } from "vue";
+import CreateAccModal from "@/components/CreateAccModal.vue";
 
 export default {
 	name: 'LoginForm',
+	components: {
+		CreateAccModal,
+	},
 	setup() {
 		const data = reactive({
 			email: '',
