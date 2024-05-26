@@ -181,6 +181,9 @@ def user_manager(request):
 			if user_serializer.is_valid():
 				user_serializer.save()
 				return Response(user_serializer.data, status=status.HTTP_201_CREATED)
+			else:
+				print(user_serializer.errors)
+				return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 		return Response(status=status.HTTP_400_BAD_REQUEST)

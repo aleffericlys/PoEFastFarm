@@ -11,7 +11,7 @@
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div v-if="auth" class="offcanvas-body">
-			<ProfileForm />
+			<CreateAccModal />
 		</div>
 		<div v-else class="offcanvas-body">
 			<LoginForm />
@@ -22,7 +22,7 @@
 <script>
 import { computed } from "vue";
 import LoginForm from "@/components/LoginForm.vue";
-import CreateAccForm from "@/components/CreateAccForm.vue";
+import CreateAccModal from "@/components/CreateAccModal.vue";
 import ProfileForm from "@/components/ProfileForm.vue";
 import { useStore } from "vuex";
 
@@ -32,7 +32,7 @@ export default {
 	
 	components: {
 		LoginForm,
-		CreateAccForm,
+		CreateAccModal,
 		ProfileForm,
 	},
 

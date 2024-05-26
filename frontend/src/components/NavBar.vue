@@ -23,11 +23,48 @@
 
 <script>
 import LoginSideBar from "@/components/LoginSideBar.vue";
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
 
 export default {
 	name: "NavBar",
+	
 	components: {
 		LoginSideBar,
+	},
+
+	setup() {
+		const message = ref("");
+		const store = useStore();
+
+		onMounted(async () => {
+			try {
+				const response = await fetch('http://localhost:8000/api/user/', {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+				});
+				console.log(response)
+				if (!response.ok) {
+					message.value = 'You are not logged in!';
+				} else {
+					const data = await response.json();
+
+					if (data.name) {
+						store.dispatch('login', data); // Despacha a ação de login
+						message.value = `Welcome ${data.nickName}!`;
+					}
+				}
+			} catch (error) {
+				throw new Error('There has been a problem with your fetch operation:', error);
+			}
+		});
+
+		return { message };
+
+
 	},
 };
 

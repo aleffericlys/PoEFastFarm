@@ -1,6 +1,6 @@
 <template>
 	<div class="about">
-		<h1>{{ message }}</h1>
+		<h1>calculator screan</h1>
 	</div>
 </template>
 
@@ -11,7 +11,7 @@ import { useStore } from 'vuex';
 export default {
 	setup() {
 		const store = useStore();
-		const message = ref('You are not logged in!');
+		const message = ref('');
 
 		onMounted(async () => {
 			try {
@@ -22,18 +22,19 @@ export default {
 					},
 					credentials: 'include',
 				});
+				console.log(response)
 				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				const data = await response.json();
-				if (data.name) {
-					store.dispatch('login', data); // Despacha a ação de login
-					message.value = `Welcome ${data.nickName}!`;
-				} else {
-					console.log(data.message);
+					message.value = 'You are not logged in!';
+				}else{
+					const data = await response.json();
+					
+					if (data.name) {
+						store.dispatch('login', data); // Despacha a ação de login
+						message.value = `Welcome ${data.nickName}!`;
+					}
 				}
 			} catch (error) {
-				console.error('There has been a problem with your fetch operation:', error);
+				throw new Error('There has been a problem with your fetch operation:', error);
 			}
 		});
 

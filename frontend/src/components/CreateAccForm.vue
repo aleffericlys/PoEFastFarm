@@ -1,80 +1,92 @@
 <template>
-	<form class="login_form" @submit="submit">
-		<div class="file-container">
-			<div class="form-floating image">
-				<input @change="imageUp" type="file" class="form-control image" id="floatingInput" name="image"
-					accept="image/*" placeholder="image">
-			</div>
-			<label>profile image</label>
+	<form class="login_form" @submit.prevent="submit" enctype="multipart/form-data">
+		<div class="form-floating">
+			<p>Profile picture:</p>
+			<input @change="imageUp" type="file" class="form-control image" id="floatingInput image" name="image" accept="image/*" placeholder="image">
 		</div>
 		<div class="text-campos">
 			<div class="form-floating">
-				<input v-model="data.email" type="email" class="form-control" id="floatingInput"
+				<input v-model="data.email" type="email" class="form-control" id="floatingInput email"
 					placeholder="name@example.com">
 				<label for="floatingInput">Email address</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.name" type="text" class="form-control" id="floatingInput" placeholder="name">
+				<input v-model="data.name" type="text" class="form-control" id="floatingInput name" placeholder="name">
 				<label for="floatingInput">Name</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput"
+				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput nickName"
 					placeholder="Nick Name">
 				<label for="floatingInput">Nick Name</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.password" type="password" class="form-control" id="floatingPassword"
+				<input v-model="data.password" type="password" class="form-control" id="floatingPassword Password"
 					placeholder="Password">
 				<label for="floatingPassword">Password</label>
 			</div>
 		</div>
 
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
-		<div class="criar_conta">
-			já tem conta?<button class="btn" id="criar_conta">Realizar Login!</button>
-		</div>
+		
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
+		<div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 	</form>
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export default {
-	name: 'CreateAccForm',
-	setup() {
-		const data = reactive({
-			email: '',
-			name: '',
-			nickName: '',
-			password: '',
-			profilePicture: null,
-		})
+  name: 'CreateAccForm',
+  setup() {
+    const data = reactive({
+      email: '',
+      name: '',
+      nickName: '',
+      password: '',
+      profilePicture: null,
+    });
 
-		const imageUp = (e) => {
-			data.profilePicture = e.target.files[0];
-		}
+    const errorMessage = ref(''); // Variável para armazenar a mensagem de erro
 
-		const submit = async () => {
-			await fetch('http://localhost:8000/api/data/', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
-				body: JSON.stringify(data),
-			})
-			console.log(data);
-			// window.location.reload();
-		}
+    const imageUp = (e) => {
+      data.profilePicture = e.target.files[0];
+    };
 
-		return { data, submit, imageUp }
+    const submit = async () => {
+      try {
+        const formData = new FormData(); // Criação do FormData para envio dos dados
+        for (const key in data) {
+          formData.append(key, data[key]);
+        }
 
-	}
-}
+        const response = await fetch('http://localhost:8000/api/data/', {
+          method: 'POST',
+          credentials: 'include',
+          body: formData, // Enviando o FormData
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          errorMessage.value = errorData.profilePicture[0] || 'An error occurred'; // Captura e exibe a mensagem de erro do backend
+          return;
+        }
+
+        const responseData = await response.json();
+        console.log('Form submitted successfully:', responseData);
+        errorMessage.value = ''; // Limpa as mensagens de erro após um envio bem-sucedido
+      } catch (error) {
+        console.error('There was a problem with the form submission:', error);
+        errorMessage.value = 'There was a problem with the form submission.'; // Exibe mensagem de erro genérica em caso de exceção
+      }
+    };
+
+    return { data, submit, imageUp, errorMessage };
+  },
+};
 
 </script>
 
@@ -93,47 +105,10 @@ export default {
 	}
 }
 
-.file-container {
-	position: absolute;
-	top: 11%;
-	left: 0;
-	width: 100%;
-	z-index: 999;
-	/* Certifique-se de que a div sobreponha o cabeçalho do offcanvas */
+.PImage {
+	margin-bottom: 10px;
 }
 
-.text-campos {
-	margin-top: 20%;
-}
-
-.image {
-	// position: absolute;
-	display: flex;
-	align-content: center;
-
-
-	.image {
-		// position: absolute;
-		display: fixed;
-		width: 150px;
-		height: 150px;
-		position: relative;
-		margin-left: auto;
-		margin-right: auto;
-		border-radius: 50%;
-		border: 3px solid white;
-	}
-
-	label {
-		position: absolute;
-		margin-left: auto;
-		margin-right: auto;
-		transform: translate(-50%, -50%);
-		color: black;
-		font-size: 20px;
-		font-weight: bold;
-	}
-}
 
 .criar_conta {
 	position: relative;
@@ -146,5 +121,12 @@ export default {
 		margin-left: 5px;
 		color: blue;
 	}
+}
+
+p {
+	margin-right: 70%;
+
+
+	margin-bottom: -2px;
 }
 </style>
