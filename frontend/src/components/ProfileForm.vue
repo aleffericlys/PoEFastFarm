@@ -2,10 +2,8 @@
 	<form class="profile_form">
 		<div class="file-container">
 			<div class="form-floating image">
-				<input type="file" class="form-control image" id="floatingInput" name="image"
-					accept="image/*" placeholder="image">
+				<img class="image" :src="profilePictureUrl" alt="">
 			</div>
-			<label>profile image</label>
 		</div>
 		<div class="text-campos">
 			<div class="form-floating">
@@ -27,7 +25,7 @@
 
 		</div>
 
-		<CreateAccModal methods="PUT" btnType="btn-primary"/>
+		<CreateAccModal methods="PUT" btnType="btn-primary" />
 		<div class="criar_conta">
 			<button class="btn btn-danger" @click="logout">Realizar Logout!</button>
 		</div>
@@ -59,11 +57,11 @@ export default {
 
 		const profilePictureUrl = computed(() => {
 			if (user) {
-				return "http://localhost:8000/"+user.profilePicture
-			}else{
+				return "http://localhost:8000/" + user.profilePicture
+			} else {
 				return ""
 			}
-			
+
 		});
 
 		const logout = async () => {
@@ -116,6 +114,14 @@ export default {
 	// position: absolute;
 	display: flex;
 	align-content: center;
+	background-color: white;
+	width: 150px;
+	height: 150px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 50%;
+
 
 
 	.image {
