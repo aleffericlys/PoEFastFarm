@@ -37,14 +37,17 @@
 
 <script>
 import { reactive } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
 	name: 'ProfileForm',
 	setup() {
+		const user = useStore().state.user;
+
 		const data = reactive({
-			email: 'user',
-			name: 'user',
-			nickName: 'user',
+			email: user.email,
+			name: user.name,
+			nickName: user.nickName,
 			profilePicture: null,
 		})
 
