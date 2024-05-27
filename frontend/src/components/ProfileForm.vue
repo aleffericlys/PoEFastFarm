@@ -36,13 +36,14 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
 	name: 'ProfileForm',
 	setup() {
 		const user = useStore().state.user;
+		const message = ref('')
 
 		const data = reactive({
 			email: user.email,
@@ -55,18 +56,42 @@ export default {
 			data.profilePicture = e.target.files[0];
 		}
 
+		const profilePictureUrl = computed(() => {
+			if (user) {
+				return "http://localhost:8000/"+user.profilePicture
+			}else{
+				return "não tem"
+			}
+			
+		});
+
 		const submit = async () => {
-			await fetch('http://localhost:8000/api/data/', {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
-				body: JSON.stringify(data),
-			})
-			console.log(data);
-			// window.location.reload();
-		}
+			try {
+				const formData = new FormData(); // Criação do FormData para envio dos dados
+				for (const key in data) {
+					formData.append(key, data[key]);
+				}
+
+				const response = await fetch('http://localhost:8000/api/data/', {
+					method: 'PUT',
+					credentials: 'include',
+					body: formData, // Enviando o FormData
+				});
+
+				if (!response.ok) {
+					const errorData = await response.json();
+					errorMessage.value = errorData.profilePicture[0] || 'An error occurred'; // Captura e exibe a mensagem de erro do backend
+					return;
+				}
+
+				const responseData = await response.json();
+				console.log('Form submitted successfully:', responseData);
+				errorMessage.value = ''; // Limpa as mensagens de erro após um envio bem-sucedido
+			} catch (error) {
+				console.error('There was a problem with the form submission:', error);
+				errorMessage.value = 'There was a problem with the form submission.'; // Exibe mensagem de erro genérica em caso de exceção
+			}
+		};
 
 		const logout = async () => {
 			await fetch('http://localhost:8000/api/logout/', {
@@ -79,7 +104,7 @@ export default {
 			window.location.reload();
 		}
 
-		return { data, submit, imageUp, logout }
+		return { data, submit, imageUp, logout, profilePictureUrl }
 
 	}
 }
@@ -142,6 +167,4 @@ export default {
 		font-weight: bold;
 	}
 }
-
-
 </style>

@@ -214,7 +214,7 @@ class User(AbstractUser):
 	name = models.CharField(max_length=100, null=False, default=None)
 	nickName = models.CharField(max_length=45, null=True, default=None)
 	password = models.CharField(max_length=100, null=False, default=None)
-	profilePicture = models.ImageField(upload_to='static/img/', null=True, default=None)
+	profilePicture = models.ImageField(upload_to='img/', null=True, default=None)
 	createdAt = models.DateTimeField(auto_now_add=True)
 	updatedAt = models.DateTimeField(auto_now=True)
 	Essences_idEssences = models.ForeignKey(Essences, on_delete=models.CASCADE)
