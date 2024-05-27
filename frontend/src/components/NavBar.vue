@@ -46,7 +46,6 @@ export default {
 					},
 					credentials: 'include',
 				});
-				console.log(response)
 				if (!response.ok) {
 					message.value = 'You are not logged in!';
 				} else {
@@ -63,8 +62,6 @@ export default {
 		});
 
 		return { message };
-
-
 	},
 };
 
