@@ -1,8 +1,8 @@
 <template>
-	<form class="profile_form" @submit="submit">
+	<form class="profile_form">
 		<div class="file-container">
 			<div class="form-floating image">
-				<input @change="imageUp" type="file" class="form-control image" id="floatingInput" name="image"
+				<input type="file" class="form-control image" id="floatingInput" name="image"
 					accept="image/*" placeholder="image">
 			</div>
 			<label>profile image</label>
@@ -27,7 +27,7 @@
 
 		</div>
 
-		<button class="w-100 btn btn-lg btn-primary" type="submit">update account</button>
+		<CreateAccModal methods="PUT" btnType="btn-primary"/>
 		<div class="criar_conta">
 			<button class="btn btn-danger" @click="logout">Realizar Logout!</button>
 		</div>
@@ -36,62 +36,35 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import CreateAccModal from './CreateAccModal.vue';
 
 export default {
 	name: 'ProfileForm',
+
+	components: {
+		CreateAccModal,
+	},
+
 	setup() {
 		const user = useStore().state.user;
-		const message = ref('')
 
 		const data = reactive({
 			email: user.email,
 			name: user.name,
 			nickName: user.nickName,
 			profilePicture: null,
-		})
-
-		const imageUp = (e) => {
-			data.profilePicture = e.target.files[0];
-		}
+		});
 
 		const profilePictureUrl = computed(() => {
 			if (user) {
 				return "http://localhost:8000/"+user.profilePicture
 			}else{
-				return "não tem"
+				return ""
 			}
 			
 		});
-
-		const submit = async () => {
-			try {
-				const formData = new FormData(); // Criação do FormData para envio dos dados
-				for (const key in data) {
-					formData.append(key, data[key]);
-				}
-
-				const response = await fetch('http://localhost:8000/api/data/', {
-					method: 'PUT',
-					credentials: 'include',
-					body: formData, // Enviando o FormData
-				});
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					errorMessage.value = errorData.profilePicture[0] || 'An error occurred'; // Captura e exibe a mensagem de erro do backend
-					return;
-				}
-
-				const responseData = await response.json();
-				console.log('Form submitted successfully:', responseData);
-				errorMessage.value = ''; // Limpa as mensagens de erro após um envio bem-sucedido
-			} catch (error) {
-				console.error('There was a problem with the form submission:', error);
-				errorMessage.value = 'There was a problem with the form submission.'; // Exibe mensagem de erro genérica em caso de exceção
-			}
-		};
 
 		const logout = async () => {
 			await fetch('http://localhost:8000/api/logout/', {
@@ -104,7 +77,7 @@ export default {
 			window.location.reload();
 		}
 
-		return { data, submit, imageUp, logout, profilePictureUrl }
+		return { data, logout, profilePictureUrl }
 
 	}
 }

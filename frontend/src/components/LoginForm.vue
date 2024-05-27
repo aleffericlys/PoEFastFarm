@@ -17,7 +17,7 @@
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 		<div class="criar_conta">
 			não tem conta?
-			<CreateAccModal />
+			<CreateAccModal methods="POST"/>
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
 	</form>

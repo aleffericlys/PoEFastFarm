@@ -30,10 +30,10 @@
 			</div>
 		</div>
 
-		<button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
+		<button v-if="methods === 'POST'" class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
+		<button v-else class="w-100 btn btn-lg btn-primary" type="submit">Update account</button>
 
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
-		<div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 	</form>
 </template>
 
@@ -42,7 +42,16 @@ import { reactive, ref } from 'vue';
 
 export default {
 	name: 'CreateAccForm',
-	setup() {
+
+	props: {
+		methods: {
+			type: String,
+			required: true,
+		},
+	},
+
+	setup(props) {
+		const methods = props.methods;
 		const data = reactive({
 			email: '',
 			name: '',
@@ -65,7 +74,7 @@ export default {
 				}
 
 				const response = await fetch('http://localhost:8000/api/data/', {
-					method: 'POST',
+					method: methods,
 					credentials: 'include',
 					body: formData, // Enviando o FormData
 				});
