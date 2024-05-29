@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="criar_conta">
-			<CreateAccModal methods="PUT" btnType="btn-primary" />
+			<CreateAccModal methods="PUT"/>
 			<button class="btn btn-danger" @click="logout">Realizar Logout!</button>
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
