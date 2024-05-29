@@ -7,26 +7,24 @@
 		</div>
 		<div class="text-campos">
 			<div class="form-floating">
-				<input v-model="data.email" type="email" class="form-control" id="floatingInput"
-					placeholder="name@example.com">
+				<input v-model="data.email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" readonly>
 				<label for="floatingInput">Email address</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.name" type="text" class="form-control" id="floatingInput" placeholder="name">
+				<input v-model="data.name" type="text" class="form-control" id="floatingInput" placeholder="name" readonly>
 				<label for="floatingInput">Name</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput"
-					placeholder="Nick Name">
+				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput" placeholder="Nick Name" readonly>
 				<label for="floatingInput">Nick Name</label>
 			</div>
 
 		</div>
 
-		<CreateAccModal methods="PUT" btnType="btn-primary" />
 		<div class="criar_conta">
+			<CreateAccModal methods="PUT" btnType="btn-primary" />
 			<button class="btn btn-danger" @click="logout">Realizar Logout!</button>
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
@@ -52,7 +50,6 @@ export default {
 			email: user.email,
 			name: user.name,
 			nickName: user.nickName,
-			profilePicture: null,
 		});
 
 		const profilePictureUrl = computed(() => {
@@ -145,5 +142,12 @@ export default {
 		font-size: 20px;
 		font-weight: bold;
 	}
+}
+.criar_conta {
+	position: relative;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
 }
 </style>

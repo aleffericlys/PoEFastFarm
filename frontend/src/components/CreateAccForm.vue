@@ -1,32 +1,34 @@
 <template>
 	<form class="login_form" @submit.prevent="submit" enctype="multipart/form-data">
+		<div v-if="methods === 'PUT'" class="info">Preencha ou altere apenas os campos que deseja alterar!</div>
+		<div v-else class="info">Preencha todos os campos que tem '*' como marcação</div>
+
 		<div class="form-floating">
-			<p>Profile picture:</p>
-			<input @change="imageUp" type="file" class="form-control image" id="floatingInput image" name="image"
-				accept="image/*" placeholder="image">
+			<p class="profileInfo">Profile picture:</p>
+			<input @change="imageUp" type="file" class="form-control image" id="floatingInput image" name="image" accept="image/*" placeholder="image">
 		</div>
 		<div class="text-campos">
 			<div class="form-floating">
-				<input v-model="data.email" type="email" class="form-control" id="floatingInput email"
-					placeholder="name@example.com">
-				<label for="floatingInput">Email address</label>
+				<input v-if="methods === 'PUT'" v-model="data.email" type="email" class="form-control" id="floatingInput email" placeholder="name@example.com" readonly>
+				<input v-else v-model="data.email" type="email" class="form-control" id="floatingInput email" placeholder="name@example.com">
+				<label for="floatingInput">Email address*</label>
 			</div>
 
 			<div class="form-floating">
 				<input v-model="data.name" type="text" class="form-control" id="floatingInput name" placeholder="name">
-				<label for="floatingInput">Name</label>
+				<label for="floatingInput">Name*</label>
 			</div>
 
 			<div class="form-floating">
 				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput nickName"
 					placeholder="Nick Name">
-				<label for="floatingInput">Nick Name</label>
+				<label for="floatingInput">Nick Name*</label>
 			</div>
 
-			<div class="form-floating">
+			<div v-if="methods === 'POST'" class="form-floating">
 				<input v-model="data.password" type="password" class="form-control" id="floatingPassword Password"
 					placeholder="Password">
-				<label for="floatingPassword">Password</label>
+				<label for="floatingPassword">Password*</label>
 			</div>
 		</div>
 
@@ -39,6 +41,7 @@
 
 <script>
 import { reactive, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
 	name: 'CreateAccForm',
@@ -52,6 +55,8 @@ export default {
 
 	setup(props) {
 		const methods = props.methods;
+		const user = useStore().state.user;
+
 		const data = reactive({
 			email: '',
 			name: '',
@@ -59,6 +64,10 @@ export default {
 			password: '',
 			profilePicture: null,
 		});
+
+		if (methods === 'PUT') {
+			data.email = user.email;
+		}
 
 		const errorMessage = ref(''); // Variável para armazenar a mensagem de erro
 
@@ -70,7 +79,9 @@ export default {
 			try {
 				const formData = new FormData(); // Criação do FormData para envio dos dados
 				for (const key in data) {
-					formData.append(key, data[key]);
+					if (data[key] != '' && data[key] != null) {
+						formData.append(key, data[key]);
+					}
 				}
 
 				const response = await fetch('http://localhost:8000/api/data/', {
@@ -88,6 +99,7 @@ export default {
 				const responseData = await response.json();
 				console.log('Form submitted successfully:', responseData);
 				errorMessage.value = ''; // Limpa as mensagens de erro após um envio bem-sucedido
+				window.location.reload(); // Recarrega a página após o envio bem-sucedido
 			} catch (error) {
 				console.error('There was a problem with the form submission:', error);
 				errorMessage.value = 'There was a problem with the form submission.'; // Exibe mensagem de erro genérica em caso de exceção
@@ -132,10 +144,13 @@ export default {
 	}
 }
 
-p {
+.profileInfo {
 	margin-right: 70%;
-
-
 	margin-bottom: -2px;
+}
+
+.info {
+	color: red;
+	font-size: 12px;
 }
 </style>

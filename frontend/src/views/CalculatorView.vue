@@ -3,6 +3,7 @@
 		<img alt="Vue logo" src="../assets/logo.png">
 		<h1>Calculator Scream</h1>
 	</div>
+
 </template>
 
 <script>

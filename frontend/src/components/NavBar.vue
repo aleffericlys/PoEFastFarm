@@ -1,7 +1,7 @@
 <template>
 	<nav>
 		<div class="leftSideBar">
-			side bar
+			home side bar
 		</div>
 		<div class="links">
 			<router-link to="/">

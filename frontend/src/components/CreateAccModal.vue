@@ -40,7 +40,7 @@ export default {
 	computed:{
 		btnType(){
 			if(this.methods == 'PUT'){
-				return ["btn", "btn-lg", "btn-primary"]
+				return ["btn", "btn-primary"]
 			}else{
 				return ["btn", "principal"]
 			}
