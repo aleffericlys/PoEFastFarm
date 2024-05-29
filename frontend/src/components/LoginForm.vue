@@ -1,6 +1,6 @@
 <template>
 	<form class="login_form" @submit="submit">
-		<h1 class="h3 mb-3 fw-normal">Entre com Email e Senha</h1>
+		<h2 class="h3 mb-3 fw-normal">Login with Email and Password</h2>
 
 		<div class="form-floating">
 			<input v-model="data.email" type="email" class="form-control" id="floatingInput"
@@ -16,7 +16,7 @@
 
 		<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
 		<div class="criar_conta">
-			não tem conta?
+			Don't have an account?
 			<CreateAccModal methods="POST"/>
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>

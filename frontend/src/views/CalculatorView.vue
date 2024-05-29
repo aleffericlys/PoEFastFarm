@@ -1,7 +1,5 @@
 <template>
 	<div class="about">
-		<img alt="Vue logo" src="../assets/logo.png">
-		<h1>Calculator Scream</h1>
 		<tabComponent />
 	</div>
 
@@ -19,6 +17,8 @@ export default {
 
 <style scoped>
 .about {
-	color: white;
+	display: block;
+	position: relative;
+	align-items: center;
 }
 </style>
