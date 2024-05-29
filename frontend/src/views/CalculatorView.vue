@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import tabComponent from "@/components/teste.vue";
+import tabComponent from "@/components/Calculator.vue";
 export default {
 	components: {
 		tabComponent,

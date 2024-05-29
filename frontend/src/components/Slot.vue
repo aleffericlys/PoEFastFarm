@@ -11,7 +11,7 @@ export default {
 	props: {
 		conteudo: {
 			type: String,
-			required: true
+			required: false
 		}
 	},
 	data() {
@@ -33,12 +33,11 @@ export default {
 .click {
 	width: 10vh;
 	height: 100%;
-	border: 1px solid red;
+	border: 1px solid blue;
 }
 
 .noClick {
 	width: 10vh;
 	height: 100%;
-	border: 1px solid blue;
 }
 </style>

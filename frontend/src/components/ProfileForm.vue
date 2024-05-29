@@ -143,6 +143,7 @@ export default {
 		font-weight: bold;
 	}
 }
+
 .criar_conta {
 	position: relative;
 	width: 100%;

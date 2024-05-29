@@ -18,7 +18,7 @@
 					<div class="g4">
 						<div v-for="i in range(4)" :class="'layer l' + i">
 							<!-- <div v-for="j in range(4)" class="slot">{{ j }}</div> -->
-							<Slot v-for="j in range(4)"/>
+							<Slot v-for="j in range(4)" />
 						</div>
 					</div>
 				</div>
@@ -26,13 +26,13 @@
 					<div class="g2">
 						<div v-for="i in range(4)" :class="'layer l' + i">
 							<!-- <div v-for="j in range(6)" class="slot"></div> -->
-							<Slot v-for="j in range(6)"/>
+							<Slot v-for="j in range(6)" />
 						</div>
 					</div>
 					<div class="g5">
 						<div v-for="i in range(4)" :class="'layer l' + i">
 							<!-- <div v-for="j in range(3)" class="slot">{{ j }}</di -->
-							<Slot v-for="j in range(3)"/>
+							<Slot v-for="j in range(3)" />
 						</div>
 					</div>
 				</div>
@@ -40,13 +40,13 @@
 					<div class="g3">
 						<div v-for="i in range(4)" :class="'layer l' + i">
 							<!-- <div v-for="j in range(5)" class="slot"></div> -->
-							<Slot v-for="j in range(5)"/>
+							<Slot v-for="j in range(5)" />
 						</div>
 					</div>
 					<div class="g6">
 						<div v-for="i in range(4)" :class="'layer l' + i">
 							<!-- <div v-for="j in range(2)" class="slot">{{ j }}</div> -->
-							<Slot v-for="j in range(2)"/>
+							<Slot v-for="j in range(2)" />
 						</div>
 					</div>
 				</div>
@@ -64,6 +64,7 @@
 
 <script>
 import Slot from './Slot.vue';
+import { onMounted } from 'vue';
 export default {
 	name: 'tabComponent',
 	components: {
@@ -91,7 +92,26 @@ export default {
 		isActiveSlide(screan) {
 			return this.currentScrean === screan;
 		}
-	}
+	},
+	setup() {
+		const ess = '';
+
+		onMounted(async () => {
+			const response = await fetch('http://127.0.0.1:8000/api/itens/essences/', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				credentials: 'include',
+			});
+			console.log(response.json());
+		});
+
+		return {
+			ess
+		}
+
+	},
 }
 </script>
 
@@ -123,9 +143,9 @@ export default {
 }
 
 .carousel-buttons .btn-active {
-  background-color: #444444;
-  color: white;
-  /* Adicione outros estilos desejados para o botão ativo */
+	background-color: #444444;
+	color: white;
+	/* Adicione outros estilos desejados para o botão ativo */
 }
 
 
@@ -183,23 +203,11 @@ export default {
 	.g2 {
 		width: 51%;
 		height: 100%;
-
-		.slot {
-			width: 10vh;
-			height: 100%;
-			border: 1px solid blue;
-		}
 	}
 
 	.g3 {
 		width: 42.5%;
 		height: 100%;
-
-		.slot {
-			width: 10vh;
-			height: 100%;
-			border: 1px solid blue;
-		}
 	}
 
 	.g4 {
@@ -209,12 +217,6 @@ export default {
 		.layer {
 			display: flex;
 			flex-direction: row-reverse;
-		}
-
-		.slot {
-			width: 10vh;
-			height: 100%;
-			border: 1px solid blue;
 		}
 	}
 
@@ -226,12 +228,6 @@ export default {
 			display: flex;
 			flex-direction: row-reverse;
 		}
-
-		.slot {
-			width: 10vh;
-			height: 100%;
-			border: 1px solid blue;
-		}
 	}
 
 	.g6 {
@@ -241,12 +237,6 @@ export default {
 		.layer {
 			display: flex;
 			flex-direction: row-reverse;
-		}
-
-		.slot {
-			width: 10vh;
-			height: 100%;
-			border: 1px solid blue;
 		}
 	}
 

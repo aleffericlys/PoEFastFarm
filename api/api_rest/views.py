@@ -131,30 +131,8 @@ def get_user(request):
 		return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-@api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@api_view(['POST', 'PUT', 'DELETE'])
 def user_manager(request):
-
-	# pegando usuário pelo nick com request.GET
-	if request.method == 'GET':
-
-		try:
-			if request.GET['user']:
-				
-				nick = request.GET['user']
-				
-				try:
-					user = User.objects.get(nickName=nick)
-				except User.DoesNotExist:
-					return Response(status=status.HTTP_404_NOT_FOUND)
-				
-				serializer = UserSerializer(user)
-				return Response(serializer.data)
-			
-			else:
-				return Response(status=status.HTTP_400_BAD_REQUEST)
-		
-		except User.DoesNotExist:
-			return Response(status=status.HTTP_404_NOT_FOUND)
 	
 	# criando novo usuário
 	if request.method == 'POST':
