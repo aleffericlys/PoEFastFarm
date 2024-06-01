@@ -131,7 +131,7 @@ def get_user(request):
 		return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
 
-@api_view(['POST', 'PUT', 'DELETE'])
+@api_view(['POST', 'PUT'])
 def user_manager(request):
 	
 	# criando novo usuário
@@ -184,6 +184,9 @@ def user_manager(request):
 		else:
 			return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['DELETE'])
+def delete_user(request):
 	# deletando usuário
 	if request.method == 'DELETE':
 		try:

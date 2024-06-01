@@ -11,7 +11,7 @@ export default {
 	props: {
 		conteudo: {
 			type: String,
-			required: false
+			required: false,
 		}
 	},
 	data() {
@@ -33,7 +33,10 @@ export default {
 .click {
 	width: 10vh;
 	height: 100%;
-	border: 1px solid blue;
+	background-image: url('https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXNzZW5jZS9UZXJyb3IxIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/80faa3ee53/Terror1.png');
+	// background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 .noClick {

@@ -12,6 +12,7 @@ urlpatterns = [
 	path('scarabs/<str:nick>', views.get_user_scarabs, name='get_user_scarabs'),
 	path('scarabs/delete/<str:id>', views.delete_scarab, name='delete_scarab'),
 	path('user/', views.get_user, name='get_user_by_nick'),
+	path('user/delete/', views.delete_user, name='delete_user'),
 	path('login/', views.user_login, name='login'),
 	path('logout/', views.user_logout, name='logout'),
 	path('data/', views.user_manager),
