@@ -29,7 +29,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 .click {
 	width: 10vh;
 	height: 100%;

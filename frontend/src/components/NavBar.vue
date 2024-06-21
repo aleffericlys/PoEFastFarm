@@ -27,7 +27,7 @@ import { useStore } from "vuex";
 
 export default {
 	name: "NavBar",
-	
+
 	components: {
 		LoginSideBar,
 	},

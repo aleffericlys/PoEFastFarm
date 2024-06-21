@@ -7,24 +7,27 @@
 		</div>
 		<div class="text-campos">
 			<div class="form-floating">
-				<input v-model="data.email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" readonly>
+				<input v-model="data.email" type="email" class="form-control" id="floatingInput"
+					placeholder="name@example.com" readonly>
 				<label for="floatingInput">Email address</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.name" type="text" class="form-control" id="floatingInput" placeholder="name" readonly>
+				<input v-model="data.name" type="text" class="form-control" id="floatingInput" placeholder="name"
+					readonly>
 				<label for="floatingInput">Name</label>
 			</div>
 
 			<div class="form-floating">
-				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput" placeholder="Nick Name" readonly>
+				<input v-model="data.nickName" type="text" class="form-control" id="floatingInput"
+					placeholder="Nick Name" readonly>
 				<label for="floatingInput">Nick Name</label>
 			</div>
 
 		</div>
 
 		<div class="criar_conta">
-			<CreateAccModal methods="PUT"/>
+			<CreateAccModal methods="PUT" />
 			<button class="btn btn-danger" @click="logout">Realizar Logout!</button>
 		</div>
 		<p class="mt-4 mb-3 text-muted">© 2024</p>
