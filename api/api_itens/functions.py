@@ -3,6 +3,8 @@ import requests
 
 
 class Essence:
+	def __init__(self) -> None:
+		pass
 
 	def get_essences_info(self):
 		url = "https://poe.ninja/api/data/itemoverview?league=Necropolis&type=Essence"
@@ -74,3 +76,11 @@ class Essence:
 					if i in k['name']:
 						essTiers[i].append(k)
 		return essTiers
+	
+
+def essence():
+	essence = Essence()
+
+	essenceItens = essence.filter_essence_type()
+
+	return essenceItens

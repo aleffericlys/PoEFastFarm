@@ -89,6 +89,7 @@ export default {
 	},
 	setup() {
 		const ess = '';
+		const essence_info = '';
 
 		onMounted(async () => {
 			const response = await fetch('http://127.0.0.1:8000/api/itens/essences/', {
@@ -98,7 +99,13 @@ export default {
 				},
 				credentials: 'include',
 			});
-			console.log(response.json());
+			if (!response.ok) {
+				console.log('You are not logged in!');
+			} else {
+				const data = await response.json();
+				console.log(data.Hatred);
+			}
+			
 		});
 
 		return {
