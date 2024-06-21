@@ -11,13 +11,11 @@
 				<div class="group">
 					<div class="g1">
 						<div v-for="i in range(4)" :class="'layer l' + i">
-							<!-- <div v-for="j in range(7)" class="slot">{{ j }}</div> -->
 							<Slot v-for="j in range(7)" />
 						</div>
 					</div>
 					<div class="g4">
 						<div v-for="i in range(4)" :class="'layer l' + i">
-							<!-- <div v-for="j in range(4)" class="slot">{{ j }}</div> -->
 							<Slot v-for="j in range(4)" />
 						</div>
 					</div>
@@ -25,13 +23,11 @@
 				<div class="group">
 					<div class="g2">
 						<div v-for="i in range(4)" :class="'layer l' + i">
-							<!-- <div v-for="j in range(6)" class="slot"></div> -->
 							<Slot v-for="j in range(6)" />
 						</div>
 					</div>
 					<div class="g5">
 						<div v-for="i in range(4)" :class="'layer l' + i">
-							<!-- <div v-for="j in range(3)" class="slot">{{ j }}</di -->
 							<Slot v-for="j in range(3)" />
 						</div>
 					</div>
@@ -39,13 +35,11 @@
 				<div class="group">
 					<div class="g3">
 						<div v-for="i in range(4)" :class="'layer l' + i">
-							<!-- <div v-for="j in range(5)" class="slot"></div> -->
 							<Slot v-for="j in range(5)" />
 						</div>
 					</div>
 					<div class="g6">
 						<div v-for="i in range(4)" :class="'layer l' + i">
-							<!-- <div v-for="j in range(2)" class="slot">{{ j }}</div> -->
 							<Slot v-for="j in range(2)" />
 						</div>
 					</div>
