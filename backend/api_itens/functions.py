@@ -39,9 +39,18 @@ class Essence:
 				filterEssences['Shrieking'].append({'name': i['name'], 'tier': 2,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
 			elif 'Deafening' in i['name']:
 				filterEssences['Deafening'].append({'name': i['name'], 'tier': 1,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
-			else:
+			elif 'Corruption' in i['name']:
+				pass
+			else :
 				filterEssences['Special'].append({'name': i['name'], 'tier': 0,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
-	
+		
+		# Lista na ordem desejada
+		ordem_desejada = ["Essence of Insanity", "Essence of Horror", "Essence of Delirium", "Essence of Hysteria"]
+
+		# Ordenar a lista de dicionários com base na ordem desejada
+		filterEssences['Special'] = sorted(filterEssences['Special'], key=lambda x: ordem_desejada.index(x['name']))
+				
+		
 		return filterEssences
 
 
