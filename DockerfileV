@@ -7,6 +7,6 @@ COPY ./frontend /frontend
 WORKDIR /frontend
 
 # Exponha a porta 8000
-EXPOSE 8000
+EXPOSE 8080
 
 RUN yarn global add @vue/cli
