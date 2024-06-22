@@ -88,9 +88,9 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'poefastfarm',
-		'USER': 'root',
-		'PASSWORD': '',
-		'HOST': 'localhost',
+		'USER': 'aleff',
+		'PASSWORD': 'ericlys2',
+		'HOST': '192.168.3.16',
 		'PORT': '3306',
 		'OPTIONS': {
 			'charset': 'utf8mb4',
