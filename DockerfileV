@@ -1,0 +1,12 @@
+FROM node:20-alpine
+
+# Copie o diretório frontend para o contêiner
+COPY ./frontend /frontend
+
+# Defina o diretório de trabalho
+WORKDIR /frontend
+
+# Exponha a porta 8000
+EXPOSE 8000
+
+RUN yarn global add @vue/cli
