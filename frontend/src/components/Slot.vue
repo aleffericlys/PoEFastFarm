@@ -3,7 +3,11 @@
 		:style="{ 'background-image': isClicked ? 'url(' + url + ')' : 'none' }">
 		<div class="popover-container" @mouseover="show = true" @mouseleave="show = false">
 			<div v-if="show" class="popover-content">
-				
+				{{ conteudo.name }}<br>
+				----------------------------------------------<br>
+				chaos value: {{ conteudo.chaosValue }}<br>
+				exalted value: {{ conteudo.exaltedValue }}<br>
+				divine value: {{ conteudo.divineValue }}<br>
 			</div>
 		</div>
 	</div>
