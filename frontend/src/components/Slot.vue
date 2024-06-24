@@ -1,8 +1,8 @@
 <template>
-	<div :class="[isClicked ? 'click' : 'noClick']" @click="clicked"
+	<div :class="[isClicked || conteudo.tier === 1 ? 'click' : 'noClick']" @click="clicked"
 		:style="{ 'background-image': isClicked ? 'url(' + url + ')' : 'none' }">
-		<div class="popover-container" @mouseover="show = true" @mouseleave="show = false">
-			<div v-if="show" class="popover-content">
+		<div class="popover-container" @mouseover="handleMouseOver()" @mouseleave="show = false">
+			<div v-if="show && (isClicked || special)" class="popover-content">
 				{{ conteudo.name }}<br>
 				----------------------------------------------<br>
 				chaos value: {{ conteudo.chaosValue }}<br>
@@ -28,17 +28,25 @@ export default {
 	data() {
 		return {
 			isClicked: false,
+			special: false,
 			show: false,
 		};
 	},
 	methods: {
 		clicked() {
 			this.isClicked = !this.isClicked;
+		},
+		handleMouseOver(){
+			if (this.conteudo.tier === 1 || this.conteudo.tier === 0) {
+				this.show = true;
+				this.special = true;
+			}else{
+				this.show = true;
+			}
 		}
 	},
 	setup(props) {
 		if (props.conteudo) {
-			console.log(props.conteudo.name);
 			return {
 				url: props.conteudo.icon
 			}
@@ -78,6 +86,14 @@ export default {
 
 
 .click {
+	width: 10vh;
+	height: 100%;
+	background-size: 90% 90%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.tier1 {
 	width: 10vh;
 	height: 100%;
 	background-size: 90% 90%;
