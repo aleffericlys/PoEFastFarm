@@ -36,11 +36,11 @@ export default {
 		clicked() {
 			this.isClicked = !this.isClicked;
 		},
-		handleMouseOver(){
+		handleMouseOver() {
 			if (this.conteudo.tier === 1 || this.conteudo.tier === 0) {
 				this.show = true;
 				this.special = true;
-			}else{
+			} else {
 				this.show = true;
 			}
 		}
@@ -62,26 +62,28 @@ export default {
 
 <style scoped lang="scss">
 .popover-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
 }
 
 .popover-content {
-  display: inline-block;
-  position: absolute;
-  bottom: 100%; /* Altera de 'top' para 'bottom' para posicionar acima */
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 10px; /* Espaço entre o elemento e o popover */
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #333;
-  color: #fff;
-  white-space: nowrap;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+	display: inline-block;
+	position: absolute;
+	bottom: 100%;
+	/* Altera de 'top' para 'bottom' para posicionar acima */
+	left: 50%;
+	transform: translateX(-50%);
+	margin-bottom: 10px;
+	/* Espaço entre o elemento e o popover */
+	padding: 10px;
+	border-radius: 4px;
+	background-color: #333;
+	color: #fff;
+	white-space: nowrap;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	z-index: 10;
 }
 
 
