@@ -25,6 +25,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 Dockerfile
+DockerfileV
 docker-compose.yml
 docker-compose.override.yml
 .dockerignore
