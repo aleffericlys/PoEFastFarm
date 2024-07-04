@@ -90,7 +90,7 @@ DATABASES = {
 		'NAME': 'poefastfarm',
 		'USER': 'aleff',
 		'PASSWORD': 'ericlys2',
-		'HOST': '192.168.3.16',
+		'HOST': '192.168.62.1',
 		'PORT': '3306',
 		'OPTIONS': {
 			'charset': 'utf8mb4',
