@@ -2,7 +2,7 @@
 	<div :class="[isClicked ? 'click' : 'noClick']" @click="clicked"
 		:style="{ 'background-image': isClicked ? 'url(' + url + ')' : 'none' }">
 		<div class="popover-container" @mouseover="show = true" @mouseleave="show = false">
-			<div v-if="show" class="popover-content">
+			<div v-if="show && conteudo" class="popover-content">
 				{{ conteudo.name }}<br>
 				----------------------------------------------<br>
 				chaos value: {{ conteudo.chaosValue }}<br>
