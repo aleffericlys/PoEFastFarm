@@ -143,7 +143,7 @@ class Oils:
 		return filtered_oils
 
 
-def oils():
+def oil():
 	oil = Oils()
 
 	oilItens = oil.filter_oils()

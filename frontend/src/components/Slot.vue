@@ -1,5 +1,5 @@
 <template>
-	<div :class="[isClicked ? 'click' : 'noClick', conteudo && conteudo.canUP ? 'canUP' : '']" @click="clicked"
+	<div :class="[isClicked ? 'click' : 'noClick', conteudo && conteudo.canUP ? 'canUP' : '', oil ? 'oil' : '']" @click="clicked"
 		:style="{ 'background-image': isClicked ? 'url(' + url + ')' : 'none' }">
 		<div class="popover-container" @mouseover="show = true" @mouseleave="show = false">
 			<div v-if="show && conteudo" class="popover-content">
@@ -23,6 +23,10 @@ export default {
 		conteudo: {
 			type: Object,
 			required: false,
+		},
+		oil:{
+			type: Boolean,
+			default: false,
 		}
 	},
 	data() {
@@ -45,7 +49,7 @@ export default {
 			}
 		} else {
 			return {
-				url: 'https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXNzZW5jZS9UZXJyb3IxIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/80faa3ee53/Terror1.png'
+				url: ''
 			}
 
 		}
@@ -103,5 +107,10 @@ export default {
 
 .canUP {
 	border: 1px solid green;
+}
+
+.oil{
+	height: 80%;
+	width: 4.8vh;
 }
 </style>

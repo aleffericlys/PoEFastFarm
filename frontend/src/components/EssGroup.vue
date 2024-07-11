@@ -1,36 +1,36 @@
 <template>
 	<div class="group">
 		<div class="g1">
-			<div v-for="i in fst4" :class="'layer l' + i" :key="i">
+			<div v-for="i in fst4" :class="'layer'" :key="i">
 				<Slot v-for="j in essence_info[i]" :key="j" :conteudo="j" />
 			</div>
 		</div>
 		<div class="g4">
-			<div v-for="i in fth4" :class="'layer l' + i" :key="i">
+			<div v-for="i in fth4" :class="'layer'" :key="i">
 				<Slot v-for="j in essence_info[i]" :key="j" :conteudo="j" />
 			</div>
 		</div>
 	</div>
 	<div class="group">
 		<div class="g2">
-			<div v-for="i in snd4" :class="'layer l' + i" :key="i">
+			<div v-for="i in snd4" :class="'layer'" :key="i">
 				<Slot v-for="j in essence_info[i]" :key="j" :conteudo="j" />
 			</div>
 		</div>
 		<div class="g5">
-			<div v-for="i in fift4" :class="'layer l' + i" :key="i">
+			<div v-for="i in fift4" :class="'layer'" :key="i">
 				<Slot v-for="j in essence_info[i]" :key="j" :conteudo="j" />
 			</div>
 		</div>
 	</div>
 	<div class="group">
 		<div class="g3">
-			<div v-for="i in trd4" :class="'layer l' + i" :key="i">
+			<div v-for="i in trd4" :class="'layer'" :key="i">
 				<Slot v-for="j in essence_info[i]" :key="j" :conteudo="j" />
 			</div>
 		</div>
 		<div class="g6">
-			<div v-for="i in essence_info['Special']" :class="'layer l' + i" :key="i">
+			<div v-for="i in essence_info['Special']" :class="'layer'" :key="i">
 				<Slot :conteudo="i" />
 			</div>
 		</div>
