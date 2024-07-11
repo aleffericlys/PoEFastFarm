@@ -2,7 +2,7 @@ import requests
 
 
 
-class Essence:
+class Essences:
 	def __init__(self) -> None:
 		pass
 
@@ -88,8 +88,24 @@ class Essence:
 	
 
 def essence():
-	essence = Essence()
+	essence = Essences()
 
 	essenceItens = essence.filter_essence_type()
 
 	return essenceItens
+
+
+class Oils:
+	def __init__(self) -> None:
+		pass
+
+
+	def get_oils_info(self):
+		url = "https://poe.ninja/api/data/itemoverview?league=Necropolis&type=Oil"
+
+		response = requests.get(url)
+
+		return response.json()['lines']
+	
+	def filter_oils(self):
+		fst7 = ["clearOil", "sepiaOil", "amberOil", "verdantOil", "tealOil", "azureOil", "indigoOil"]
