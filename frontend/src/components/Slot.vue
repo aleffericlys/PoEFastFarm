@@ -1,5 +1,5 @@
 <template>
-	<div :class="[isClicked ? 'click' : 'noClick']" @click="clicked"
+	<div :class="[isClicked ? 'click' : 'noClick', conteudo && conteudo.canUP ? 'canUP' : '']" @click="clicked"
 		:style="{ 'background-image': isClicked ? 'url(' + url + ')' : 'none' }">
 		<div class="popover-container" @mouseover="show = true" @mouseleave="show = false">
 			<div v-if="show && conteudo" class="popover-content">
@@ -99,5 +99,9 @@ export default {
 .noClick {
 	width: 10vh;
 	height: 100%;
+}
+
+.canUP {
+	border: 1px solid green;
 }
 </style>

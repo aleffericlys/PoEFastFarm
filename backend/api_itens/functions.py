@@ -24,25 +24,41 @@ class Essences:
 		filterEssences['Shrieking'] = []
 		filterEssences['Deafening'] = []
 		filterEssences['Special'] = []
+
+		filtro = {}
+		for i in data:
+			if "Shrieking" in i['name'] or "Deafening" in i['name']:
+				filtro[i['name']] = {'chaosValue': i['chaosValue'], 'divineValue': i['divineValue']}
+		
+		bases = ['Contempt', 'Wrath', 'Anger', 'Hatred', 'Loathing', 'Envy', 'Spite', 'Rage', 'Zeal', 'Fear', 'Greed', 'Scorn', 'Dread', 'Sorrow', 'Torment', 'Woe', 'Anguish', 'Doubt', 'Misery', 'Suffering']
+
+		canUP= []
+		for i in bases:
+			if filtro[f'Deafening Essence of {i}']['chaosValue']/3 >= filtro[f'Shrieking Essence of {i}']['chaosValue']:
+				canUP.append(f'Shrieking Essence of {i}')
+
+
+
+
 		for i in data:
 			if 'Whispering' in i['name']:
-				filterEssences['Whispering'].append({'name': i['name'], 'tier': 7,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Whispering'].append({'name': i['name'], 'tier': 7,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Muttering' in i['name']:
-				filterEssences['Muttering'].append({'name': i['name'], 'tier': 6,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Muttering'].append({'name': i['name'], 'tier': 6,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Weeping' in i['name']:
-				filterEssences['Weeping'].append({'name': i['name'], 'tier': 5,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Weeping'].append({'name': i['name'], 'tier': 5,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Wailing' in i['name']:
-				filterEssences['Wailing'].append({'name': i['name'], 'tier': 4,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Wailing'].append({'name': i['name'], 'tier': 4,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Screaming' in i['name']:
-				filterEssences['Screaming'].append({'name': i['name'], 'tier': 3,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Screaming'].append({'name': i['name'], 'tier': 3,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Shrieking' in i['name']:
-				filterEssences['Shrieking'].append({'name': i['name'], 'tier': 2,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Shrieking'].append({'name': i['name'], 'tier': 2,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Deafening' in i['name']:
-				filterEssences['Deafening'].append({'name': i['name'], 'tier': 1,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Deafening'].append({'name': i['name'], 'tier': 1,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 			elif 'Corruption' in i['name']:
 				pass
 			else :
-				filterEssences['Special'].append({'name': i['name'], 'tier': 0,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue']})
+				filterEssences['Special'].append({'name': i['name'], 'tier': 0,'icon': i['icon'], 'chaosValue': i['chaosValue'], 'exaltedValue': i['exaltedValue'], 'divineValue': i['divineValue'], "canUP": 1 if i['name'] in canUP else 0})
 		
 		# Lista na ordem desejada
 		ordem_desejada = ["Essence of Insanity", "Essence of Horror", "Essence of Delirium", "Essence of Hysteria"]
