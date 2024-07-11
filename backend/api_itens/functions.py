@@ -124,4 +124,28 @@ class Oils:
 		return response.json()['lines']
 	
 	def filter_oils(self):
-		fst7 = ["clearOil", "sepiaOil", "amberOil", "verdantOil", "tealOil", "azureOil", "indigoOil"]
+		fst7 = ["Clear Oil", "Sepia Oil", "Amber Oil", "Verdant Oil", "Teal Oil", "Azure Oil", "Indigo Oil"]
+		lasts = ["Violet Oil", "Crimson Oil", "Black Oil", "Opalescent Oil", "Silver Oil", "Golden Oil"]
+		filtered_oils = {}
+		filtered_oils['top'] = []
+		filtered_oils['bot'] = []
+		oils = self.get_oils_info()
+		for oil in oils:
+			if oil['name'] == "Reflective Oil" or oil['name'] == "Tainted Oil" :
+				print(oil['name'])
+			elif oil['name'] in fst7:
+				filtered_oils['top'].append({'name': oil['name'],'icon': oil['icon'], 'chaosValue': oil['chaosValue'], 'exaltedValue': oil['exaltedValue'], 'divineValue': oil['divineValue']})
+			else:
+				filtered_oils['bot'].append({'name': oil['name'],'icon': oil['icon'], 'chaosValue': oil['chaosValue'], 'exaltedValue': oil['exaltedValue'], 'divineValue': oil['divineValue']})
+		
+		filtered_oils['top'] = sorted(filtered_oils['top'], key=lambda x:fst7.index(x['name']))
+		filtered_oils['bot'] = sorted(filtered_oils['bot'], key=lambda x:lasts.index(x['name']))
+		return filtered_oils
+
+
+def oils():
+	oil = Oils()
+
+	oilItens = oil.filter_oils()
+
+	return oilItens
